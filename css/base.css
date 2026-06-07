@@ -1,0 +1,252 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f9f8f4;
+  --ink: #1a1a1a;
+  --nav-width: 220px;
+  --logo-font: 'IM Fell English', serif;
+  --nav-font: 'Libre Baskerville', serif;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--nav-font);
+  overflow-x: hidden;
+}
+
+/* ── DESKTOP LAYOUT ── */
+.site-wrapper {
+  min-height: 100vh;
+}
+
+/* ── FIXED SIDEBAR ── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--nav-width);
+  padding: 2.5rem 1rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  z-index: 10;
+}
+
+/* ── LOGO ── */
+.logo {
+  font-family: var(--logo-font);
+  font-style: italic;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  padding-bottom: 2.8rem;
+  color: var(--ink);
+  text-decoration: none;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ── HAMBURGER (hidden on desktop) ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── MOBILE TOPBAR (hidden on desktop) ── */
+.mobile-topbar {
+  display: none;
+}
+
+/* ── SITE NAV ── */
+.site-nav {
+  flex: 1;
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.site-nav a {
+  font-family: var(--nav-font);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  line-height: 1.7;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+}
+
+.site-nav a:hover { opacity: 0.45; }
+.site-nav a.active { opacity: 0.45; }
+
+/* ── FOOTER ── */
+.site-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* ── SOCIAL ICONS ── */
+.social-icons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+
+.social-icons a:hover { opacity: 1; }
+
+.social-icons svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.site-footer a {
+  font-family: var(--nav-font);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+}
+
+.site-footer a:hover { opacity: 1; }
+
+/* ── MAIN CONTENT ── */
+.main-content {
+  margin-left: var(--nav-width);
+  padding: 2.5rem 2.5rem 2rem 1.5rem;
+}
+
+/* ══════════════════════════════
+   MOBILE  ≤ 768px
+══════════════════════════════ */
+@media (max-width: 768px) {
+  .site-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.25rem 1rem;
+    position: relative;
+    z-index: 100;
+  }
+
+  .mobile-topbar .logo {
+    padding-bottom: 0;
+    font-size: 1.7rem;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* Sidebar: collapse to zero size but keep rendered so fixed nav inside can overlay */
+  .sidebar {
+    height: 0;
+    width: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* Hide sidebar logo and footer on mobile */
+  .sidebar > .logo,
+  .sidebar > .site-footer {
+    display: none;
+  }
+
+  /* Nav inside sidebar becomes full-screen overlay (position:fixed escapes parent) */
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 150;
+  }
+
+  .site-nav.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .site-nav a {
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .site-footer {
+    padding: 1.5rem 1.25rem 2rem;
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
